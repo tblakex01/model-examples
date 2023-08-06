@@ -3,7 +3,7 @@
 
 interstitial_API allows two things:
 
-1. inject system prompts in between user and assistant messages, to stop the AI from auto-completing user messages or carrying on a conversation with itself.
+1. Apply custom prompt formatting (prefix, suffix, special tokens, etc.) on messages before they are provided to the local model
 
 2. the use of partially-OpenAI-compatible APIs that do not have fully defined endpoints (e.g. they are missing /v1/models).
 

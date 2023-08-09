@@ -198,7 +198,7 @@ This defines the suffix to be inserted after the user message on its way into th
 
 The API automatically reduces model names received from the /v1/models/ and /v1/chat/completions/ endpoints names to their UNIX basenames and removes their extensions, for better compatibility and aesthetics with ChatGPT UIs that aren’t designed to handle long model names.
 
-Example model name before the reduction: “/Users/stevejobs/AIPlayground/Models/TheBloke/Wizard-Vicuna-30B-Uncensored-GGML/Wizard-Vicuna-30B-Uncensored.ggmlv3.q5_K_M.bin"
+Example model name before the reduction: “/Users/stevejobs/.cache/lm-studio/models/TheBloke/Wizard-Vicuna-30B-Uncensored-GGML/Wizard-Vicuna-30B-Uncensored.ggmlv3.q5_K_M.bin"
 
 Example model name after the reduction: “Wizard-Vicuna-30B-Uncensored.ggmlv3.q5_K_M”
 

@@ -25,9 +25,9 @@ Interstitial_API is a tiny relay API script powered by FastAPI designed for use 
 - Or: `brew install python`.
 
 ### B. Create your folder and a virtual Python3 environment
-Create a new folder for the interstitial_API relay server.
-Download, e.g., `git clone`, the files.
-Confirm your folder contains: 
+* Create a new folder for the interstitial_API relay server. &nbsp;
+* Download, e.g., `git clone`, the files. &nbsp;
+* Confirm your folder contains: &nbsp;
 	* `interstitial_API.py`
 	* `start.sh`
 	* `stop.sh`
@@ -120,8 +120,8 @@ For those who need the open a relay server directly to external/WAN traffic and 
 
 #### C. (Optional) Automatic Server Restart on MacOS. 🍎
 Want the server to start every time you log into your Mac? Here's how:
-a. Open "System Preferences" ➡️ "Login Items."
-b. Click '+' ➡️ add `start.sh`.
+* Open "System Preferences" ➡️ "Login Items."
+* Click '+' ➡️ add `start.sh`.
 
 
 &nbsp;

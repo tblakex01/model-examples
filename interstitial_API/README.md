@@ -2,13 +2,20 @@
 Interstitial_API is a tiny relay API script powered by FastAPI designed for use with open source large language models, with a few nifty use cases and features already:
 
 ## Features & Functions 
-- 🤖         **Custom Prompt Formatting**: Add custom prefixes and suffixes to messages, or inject altogether new messages.
-- 🌐         **Remote API Access**: Accept encrypted API calls from anywhere over platforms like Cloudflare.
-- 🔌         **Extendable API Endpoints**: Add webhooks, connect multiple models to a single API domain, etc.
-- 🧹         **Clean up long model names:** Don't let a paragraph-long folder path readout ruin your a e s t h e t i c chat UI.
-- 🦋         **Lightweight**: Minimal impact on CPU and memory.
-- 🥷🏾         **Asynchronous Backbone**: Nimble handling of whatever you send. 
-- 🛠️         **Customizable**: Easily adapt to different models or requirements.
+🤖 &nbsp; **Prompt Formatting**: Add custom prefixes and suffixes to messages, or inject altogether new messages.<br>
+
+🌐 &nbsp; **Remote API Access**: Accept encrypted API calls from anywhere over platforms like Cloudflare.<br>
+
+🔌 &nbsp; **Extendable your API**: Add webhooks, connect multiple models to a single API domain, etc.<br>
+
+🧹 &nbsp; **Clean up model names:** Don't let a paragraph-long folder path readout ruin your a e s t h e t i c chat UI.<br>
+
+🦋 &nbsp; **Lightweight**: Minimal impact on CPU and memory.<br>
+
+🥷🏾 &nbsp; **Asynchronous Backbone**: Nimble handling of whatever you send. <br>
+
+🛠️ &nbsp; **Customizable**: Easily adapt to different models or requirements.<br>
+
 
 ## I. Installation
 ### A. Prerequisites
@@ -33,7 +40,7 @@ source [name]/bin/activate # MacOS/Linux
 [name]\Scripts\activate    # Windows
 ```
 
-*Note: Creating a virtual environment isn’t strictly speaking necessary, but is recommended to save potential future headaches when two or more Python apps have mutually exclusive dependencies. Alternatively you could use Docker, but that’s beyond the scope of this readme.*
+*Note: Creating a virtual environment isn’t strictly speaking necessary but is recommended. It helps stave off future headaches when two or more Python apps have mutually exclusive dependencies.*
 
 ### C. Install Dependencies
 ```bash
@@ -43,7 +50,7 @@ pip install fastapi uvicorn httpx
 ```
 
 ### D. Prepare Files and Scripts
-Run:
+In the folder you've made, run:
 ```bash
 chmod +x interstitial_API.py && chmod +x start.sh && chmod +x stop.sh
 ```
@@ -95,12 +102,12 @@ By default the relay server:
 #### To accept queries from outside http://localhost… ☣️
 Try Cloudflare Zero Trust, where a free account lets you accept API queries from anywhere via encrypted tunnels (e.g. https://api.yourdomain.com), with state-of-the-art DDoS protection and robust access control. Tailscale, Zerotier, and Netmaker are great for more insular . or reverse proxies like Nginx great alternative options from Tailscale, Zerotier, Netmaker, and Yggdrasil. None require you to open a port on your system to WAN.
 
-<pre><details><summary>‼️ ***Danger Zone*** ‼️</summary>
-For those who need the open a relay server directly to external/WAN traffic and understand the risks, you can open the relay server directly to external/WAN traffic by launching the server with the following command rather than through `start.sh`:
+<details><summary>‼️ ***Danger Zone*** ‼️</summary>
+For those who need the open a relay server directly to external/WAN traffic and understand the risks, you can open the relay server directly to external/WAN traffic by launching the server with the following command rather than through `start.sh`:<pre>
         
         uvicorn interstitial_API:app --port 3456 --host 0.0.0.0
         
-<i>Note: uvicorn accepts the —port argument but other server configurations must be made to .env file`</i></details></pre>
+<i>Note: uvicorn accepts the —port argument but other server configurations must be made to .env file`</i></pre></details>
 
 
 #### 3. (Optional) Automatic Server Restart on MacOS. 🍎
@@ -159,46 +166,22 @@ When set to “user”, this will add the prefix and suffix to the beginning and
 }</details></pre>
               
 
-### MESSAGE_PREFIX / --message-prefix
-- Type: string
-- Default value: "\n\n### Instruction:\n"
-- Recognized values: any (be sure to use \n to add new lines as needed)
-- Command line syntax: 
-```bash 
-	./start.sh --message-prefix "\n\n### Instruction:\n"
-```
+### --message-prefix
+`./start.sh --message-prefix "\n# User:\n"`
+.env: `MESSAGE_PREFIX="\n\n### Instruction:\n"` (default)
 
-This defines the prefix to be inserted into the messages on their way into the model, provided the prompter is enabled.
+This defines the prefix to be inserted before the user message on its way into the model, provided the prompter is enabled.
 
 
+### --message-suffix
+`./start.sh --message-suffix "\n\n### AI:\n"`
+.env: 'MESSAGE_SUFFIX="\n\n### Assistant:\n"` (default)
 
-
-### MESSAGE_SUFFIX / --message-suffix
-- Type: string
-- Default value: "\n\n### Response:\n"
-- Recognized values: any (be sure to use \n to add new lines as needed)
-- Command line syntax: 
-```bash 
-	./start.sh --message-suffix "\n\n### Response:\n"
-```
-
-As noted you can simply edit your local `interstitial_API.py` to change the server or port of the destination API, at line 23.
-
-To edit system messages injected before after assistant and user messages, edit the text on lines 54 and 55, respectively. 
+This defines the suffix to be inserted after the user message on its way into the model, provided the prompter is enabled.
 
 
 
-### ENDPOINT_COMPLETIONS
-
-- This allows relaying /chat/completions requests to destination API endpoints that do not follow OpenAI naming conventions. 
-- This is an unusual use case and there is not presently a command line argument for editing it.
-
-### ENDPOINT_MODELS
-
-- This allows relaying /models/ requests to destination endpoints that do not follow OpenAI naming conventions. 
-- This is an unusual use case and there is not presently a command line argument for editing it.
-
-### MISCELLANEOUS FUNCTIONS
+## Miscellaneous Functions 🧩
 
 #### Model name reducer
 

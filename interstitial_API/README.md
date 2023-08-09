@@ -16,6 +16,7 @@ Interstitial_API is a tiny relay API script powered by FastAPI designed for use 
 
 🛠️ &nbsp; **Customizable**: Easily adapt to different models or requirements.<br>
 
+&nbsp;
 
 ## I. Installation
 ### A. Prerequisites
@@ -55,6 +56,9 @@ In the folder you've made, run:
 chmod +x interstitial_API.py && chmod +x start.sh && chmod +x stop.sh
 ```
 
+&nbsp;
+
+
 ## II. Validation
 ### A. Launch the Relay 🚀
 Run: `./start.sh`
@@ -76,16 +80,18 @@ curl http://localhost:3456/v1/chat/completions \
   }'
 ```
 
+&nbsp;
 
-## A. Server Configuration 🖥️
-### 1. `nohup` keeps the llamas frolicking. 🦙
+
+## III. Server Configuration 🖥️
+### A. `nohup` keeps the llamas frolicking. 🦙
 Without the command line argument `--nohup`, the server will stop when you close the terminal window in which the script is running. Thus, --nohup allows running the server headlessly.
 
 Just remember to disable `--nohup` when you're troubleshooting or debugging. 🛠️
 
 *Note: for compatibility and user experience, the script is not designed to allow enabling `nohup` by a durable variable i.e. in `.env.` It must be toggled via command line argument on each run.*
 
-### 2. custom local ports, destination APIs, and WAN access. 🔌
+### B. custom local ports, destination APIs, and WAN access. 🔌
 By default the relay server:
 * runs on internal port 3456, 
 * relays to and from http://localhost:6789, and 
@@ -100,6 +106,8 @@ By default the relay server:
  .env: `DESTINATION_API=http://localhost` (default)
 
 #### To accept queries from outside http://localhost… ☣️
+… don’t even think about doing it with a command line argument through uvicorn.‼️ 
+
 Try Cloudflare Zero Trust, where a free account lets you accept API queries from anywhere via encrypted tunnels (e.g. https://api.yourdomain.com), with state-of-the-art DDoS protection and robust access control. Tailscale, Zerotier, and Netmaker are great for more insular . or reverse proxies like Nginx great alternative options from Tailscale, Zerotier, Netmaker, and Yggdrasil. None require you to open a port on your system to WAN.
 
 <details><summary>‼️ ***Danger Zone*** ‼️</summary>
@@ -110,12 +118,16 @@ For those who need the open a relay server directly to external/WAN traffic and 
 <i>Note: uvicorn accepts the —port argument but other server configurations must be made to .env file`</i></pre></details>
 
 
-#### 3. (Optional) Automatic Server Restart on MacOS. 🍎
+#### C. (Optional) Automatic Server Restart on MacOS. 🍎
 Want the server to start every time you log into your Mac? Here's how:
 a. Open "System Preferences" ➡️ "Login Items."
 b. Click '+' ➡️ add `start.sh`.
 
-## B. API Configuration. 📡
+
+&nbsp;
+
+
+## IV. API Configuration. 📡
 ### --prompter 💉
 - `./start.sh --prompter "user"`
 - `./start.sh --prompter "system"`
@@ -150,7 +162,6 @@ When set to “system”, this will add the prefix and suffix as two separate me
 
 
 #### --prompter “user”
-
 When set to “user”, this will add the prefix and suffix to the beginning and end, respectively, of the most recent user message.
 
 <pre><details><summary>Example JSON after user prefix/suffix injection:</summary><pre>
@@ -167,23 +178,23 @@ When set to “user”, this will add the prefix and suffix to the beginning and
               
 
 ### --message-prefix
-`./start.sh --message-prefix "\n# User:\n"`
+`./start.sh --message-prefix "\n# User:\n"` <br>
 .env: `MESSAGE_PREFIX="\n\n### Instruction:\n"` (default)
 
 This defines the prefix to be inserted before the user message on its way into the model, provided the prompter is enabled.
 
 
 ### --message-suffix
-`./start.sh --message-suffix "\n\n### AI:\n"`
-.env: 'MESSAGE_SUFFIX="\n\n### Assistant:\n"` (default)
+`./start.sh --message-suffix "\n\n### AI:\n"` <br>
+.env: `MESSAGE_SUFFIX="\n\n### Assistant:\n"` (default)
 
 This defines the suffix to be inserted after the user message on its way into the model, provided the prompter is enabled.
 
 
 
-## Miscellaneous Functions 🧩
+## V. Miscellaneous Functions 🧩
 
-#### Model name reducer
+### Model name reducer
 
 The API automatically reduces model names received from the /v1/models/ and /v1/chat/completions/ endpoints names to their UNIX basenames and removes their extensions, for better compatibility and aesthetics with ChatGPT UIs that aren’t designed to handle long model names.
 
@@ -191,10 +202,15 @@ Example model name before the reduction: “/Users/stevejobs/AIPlayground/Models
 
 Example model name after the reduction: “Wizard-Vicuna-30B-Uncensored.ggmlv3.q5_K_M”
 
-#### Model name override
+### Model name override
 
 To patch compatibility between client and server apps that insist on different models, defining the MODEL_OVERRIDE variable will always tell the server that the client is requesting that model.
 
-#### Missing favicon patcher
+### Missing favicon patcher
 
 If the destination API doesn’t serve up a favicon, have no fear 🤠
+
+### ENDPOINT_COMPLETIONS and ENDPOINT_MODELS
+These environment variables are set to /v1/chat/completions and /v1/models by default, respectively. 
+
+If dealing with a destination API that uses different endpoints, change the .env file accordingly.

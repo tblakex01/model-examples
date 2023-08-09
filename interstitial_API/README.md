@@ -99,7 +99,7 @@ By default the relay server:
 
 #### To specify a different local port… 🏡
 `./start.sh  --port 3030`
-.env: LOCAL_PORT=6789` (default)
+`.env: LOCAL_PORT=6789` (default)
 
 #### To specify a different destination API… 🧳
  `./start.sh  --api-url "https://api.openai.com"`

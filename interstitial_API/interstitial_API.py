@@ -70,12 +70,12 @@ async def chat_completions(data: dict):
     # Apply model override if set
     if model_override:
         modified_data = apply_model_override(modified_data)
-    
+
     # Create an HTTP client
     client = httpx.AsyncClient()
 
     logger.info(f"Sending data to destination API: {modified_data}")
-    
+
     try:
         # Define a generator function to stream content from the destination API
         async def content_generator():
@@ -104,7 +104,7 @@ async def chat_completions(data: dict):
                         else:
                             print("Content key not found in the chunk.")
 
-                       
+
                         # Extract the JSON part from the chunk, assuming "data: " prefix is present
                         json_str = chunk.split("data: ", 1)[1]
 
@@ -115,7 +115,7 @@ async def chat_completions(data: dict):
                         chunk_dict['model'] = re.sub(r'.*\/([^/]+)\.bin$', r'\1', chunk_dict['model'])
 
                         # Combine the "data: " prefix with the transformed JSON string
-                        transformed_chunk = "data: " + json.dumps(chunk_dict)
+                        transformed_chunk = f"data: {json.dumps(chunk_dict)}"
 
                         # Yield each chunk to stream it to the client
                         yield transformed_chunk.encode()
@@ -132,7 +132,7 @@ async def chat_completions(data: dict):
         # Handle request timeouts
         logger.error("The request to the destination API timed out.")
         return {"error": "The request timed out."}
-        
+
     except Exception as e:
         # Handle other exceptions
         logger.error(f"Exception occurred: {e}")
@@ -140,8 +140,7 @@ async def chat_completions(data: dict):
 
 # This function inserts the prefixes and suffixes as separate system messages between user and assistant text
 def add_system_messages(data: dict) -> dict:
-    messages = data.get('messages', [])
-    if messages:
+    if messages := data.get('messages', []):
         last_user_msg_index = next(
             (i for i, msg in reversed(list(enumerate(messages))) if msg.get('role') == 'user'),
             None
@@ -153,8 +152,7 @@ def add_system_messages(data: dict) -> dict:
 
 # This function inserts the prefixes and suffixes at the beginning and end of the latest user message
 def add_user_prompts(data: dict) -> dict:
-    messages = data.get('messages', [])
-    if messages:
+    if messages := data.get('messages', []):
         last_user_msg_index = next(
             (i for i, msg in reversed(list(enumerate(messages))) if msg.get('role') == 'user'),
             None
@@ -180,11 +178,11 @@ async def models():
             response = await client.get(f'{api_url}{endpoint_models}', timeout=30.0)
             # Print the response content to debug the issue
             print("Response content:", response.content)
-            
+
             # Update the "id" value in the response
             data = json.loads(response.content)
             data["data"][0]["id"] = re.sub(r'.*\/([^/]+)\.bin$', r'\1', data["data"][0]["id"])
-            
+
             # Convert the updated data back to a JSON string
             modified_data = json.dumps(data)
 
@@ -198,7 +196,7 @@ async def models():
 
         except Exception as e:
             # Handle exceptions or errors that may occur during the request
-            print("Request error:", str(e))
+            print("Request error:", e)
             return {"error": f"Request error: {str(e)}"}
 
 # Attempts to pull the favicon from the destination API, otherwise returns :cowboy:
